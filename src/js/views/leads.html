@@ -1,0 +1,173 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+
+<div class="oj-hybrid-padding">
+  <h1>Leads Control</h1>
+
+  <div id="loginWrapper" hidden="true">
+    <h3>You have to login first</h3>
+    <oj-button id="loginButton" class='oj-button-confirm'
+      on-oj-action="[[login]]">
+      <span><i class="fas fa-sign-in-alt"></i> Login</span>
+    </oj-button>
+  </div>
+
+  <div id="contextWrapper">
+
+    <div id="buttonsWrapper" class="oj-flex-bar">
+      <div class="oj-flex-bar-start">
+        <oj-button id="buttonOpener" on-oj-action="[[createLead]]"
+          chroming="outlined"> <span class="startIcon fas fa-plus fa-2x"
+            style="color:rgb(53, 100, 6); "></span>Create
+          Lead
+        </oj-button>
+      </div>
+      <div class="oj-flex-bar-end"></div>
+      <oj-button id="buttonSignOut" on-oj-action="[[signOut]]"
+        chroming="outlined">
+        <span class="fas fa-sign-out-alt fa-2x startIcon"
+          style="color:rgb(122, 47, 47); "></span>Sign Out
+      </oj-button>
+    </div>
+    <div id="tableWrapper" class="oj-flex">
+      <oj-table id="table" data="[[leadsData]]" scroll-policy='loadAll'
+        scroll-policy-options='{"fetchSize": 10}' columns='[
+      {
+        "headerText": "Delete",
+        "field": "Id",
+        "sortable": "disabled",
+        "template": "deletCellTemplate"
+      },
+      {
+        "headerText": "Update",
+        "field": "Id",
+        "sortable": "disabled",
+        "template": "updateCellTemplate"
+      },
+      {"headerText": "First Name", 
+        "field": "FirstName",
+        "sortable":"enabled"
+      },
+      {
+        "headerText": "Last Name",
+        "field":"LastName",
+        "sortable":"enabled"
+      },
+      {
+        "headerText": "Company",
+        "field":"Company",
+        "sortable":"enabled"
+      },
+      {
+        "headerText": "Status",
+        "field":"Status",
+        "sortable":"enabled"
+      },
+
+      {
+        "headerText": "Phone",
+        "field":"Phone",
+        "sortable":"disabled"
+      },
+      {
+        "headerText": "Website",
+        "field":"Website",
+        "sortable":"disabled"
+      },
+      {
+        "headerText": "Description",
+        "field":"Description",
+        "sortable":"disabled"
+      }
+      ]' style="width: 100%;">
+        <template slot="deletCellTemplate" data-oj-as="cell">
+          <oj-button id="deleteBtn" class="demo-button-error"
+            on-oj-action="[[deleteLeadBtn]]" chroming="solid"> <i
+              class="fas fa-trash"></i>
+          </oj-button>
+        </template>
+        <template slot="updateCellTemplate" data-oj-as="cell">
+          <oj-button id="updateBtn" class='oj-button-confirm'
+            on-oj-action="[[updateLeadBtn]]" chroming="solid">
+            <i class="far fa-edit"></i>
+          </oj-button>
+        </template>
+      </oj-table>
+    </div>
+  </div>
+</div>
+</br>
+<div id="dialogWrapper">
+  <oj-dialog id="create_dialog" style="display:none; width: 60vw; height: 60vh;"
+    dialog-title="Create New Lead" modality="modeless" resize-behavior="none"
+    cancel-behavior="icon">
+    <div slot="body">
+      <oj-validation-group id="tracker" valid="invalidShown">
+      <oj-form-layout id="create_lead" label-edge="inside" max-columns="2"
+        direction="row" label-wrapping="wrap">
+        <oj-input-text label-hint="First Name" label-edge="inside"
+          required="false" value="{{firstName}}">
+        </oj-input-text>
+        <oj-input-text label-hint="Last Name" label-edge="inside"
+          required="true" value="{{lastName}}">
+        </oj-input-text>
+        <oj-input-text label-hint="Company" label-edge="inside" required
+          value="{{company}}">
+        </oj-input-text>
+        <oj-select-one label-hint="Lead Status" label-edge="inside"
+          required="true" value='{{status}}'>
+          <oj-option value="Open - Not Contacted">Open - Not Contacted
+          </oj-option>
+          <oj-option value="Working - Contacted">Working - Contacted</oj-option>
+          <oj-option value="Closed - Converted">Closed - Converted</oj-option>
+          <oj-option value="Closed - Not Converted">Closed - Not Converted
+          </oj-option>
+        </oj-select-one>
+        <oj-input-text label-hint="Phone" label-edge="inside" required="false"
+          value="{{phone}}">
+        </oj-input-text>
+        <oj-input-text label-hint="Web Site" label-edge="inside"
+          required="false" value="{{website}}">
+        </oj-input-text>
+        <oj-input-text label-hint="Description" label-edge="inside"
+          required="false" value="{{description}}">
+        </oj-input-text>
+      </oj-form-layout>
+    </oj-validation-group>
+    </div>
+    <div slot="footer">
+      <oj-button id="okButton">
+        <sapn>
+          <oj-bind-text id="okBtnTxt" value="[[okBtnTxt]]"></oj-bind-text>
+        </sapn>
+      </oj-button>
+      <oj-button id="cancelBtn" on-oj-action="[[cancelBtn]]">Cancel
+      </oj-button>
+    </div>
+
+  </oj-dialog>
+</div>
+
+<div id="deleteDialogWrapper">
+  <oj-dialog id="deleteDialog" dialog-title="Delete Lead" modality="modeless"
+    resize-behavior="none">
+    <div slot="body" class="title">
+      Are you sure?
+    </div>
+    <div slot="footer">
+      <oj-button id="deleteButton">
+        Yes
+      </oj-button>
+      <oj-button id="NoDeleteButton">
+        No
+      </oj-button>
+    </div>
+  </oj-dialog>
+</div>
+
+
+
+
+</div>
